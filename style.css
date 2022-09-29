@@ -1,36 +1,20 @@
-input[type=text], select {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+  function createStyleNode(id, content) {
+    var styleNode =
+      document.getElementById(id) || document.createElement('style');
+  
+    styleNode.setAttribute('id', id);
+    styleNode.type = 'text/css';
+    if (styleNode.styleSheet) {
+      styleNode.styleSheet.cssText = content;
+    } else {
+      styleNode.innerHTML = '';
+      styleNode.appendChild(document.createTextNode(content));
+    }
+    document.head.appendChild(styleNode);
   }
   
-  input[type=submit] {
-    width: 100%;
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  input[type=submit]:hover {
-    background-color: #45a049;
-  }
-  
-  div {
-    border-radius: 5px;
-    background-color: #f2f2f2;
-    padding: 20px;
-  } 
-
-  .list-group-item{
-    list-style: none; 
-    font-weight: bolder; 
-    font-size: larger; 
-  } 
+  createStyleNode(
+    "/src/styles.css:-css",
+    "#delete {\n  color: red;\n  background-color: red;\n}\n"
+  );
+ })

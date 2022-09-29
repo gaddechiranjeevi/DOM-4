@@ -1,31 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head> 
+<html>
+<title>Booking page</title>
 <link rel="stylesheet" href="style.css">
-<body>
-    
-<div> 
-  <h1>Appointment Booking App</h1>
-    <form id="addForm"> 
-
-      <label for="fname">First Name</label>
-      <input type="text" id="fname" name="firstname" placeholder="Your name..">
-  
-      <label for="lname">Last Name</label>
-      <input type="text" id="lname" name="lastname" placeholder="Your last name..">
-    
-      <input type="submit" value="Submit">  
-    </form> 
-    <br> 
-    <div id="items" class="list-group">
-      <p class="list-group-item"></p>
-    </div>
-  </div>
-</body> 
+  <body>
+    <div id="app"></div>
+    <h1>Appointment Booking App</h1>
+    <form action="#">
+      <input type="text" id="name" required />
+      <input type="email" id="email" required />
+      <input type="submit" id="submit" value="Submit" />
+    </form>
+    <ul id="listOfPeople"></ul>
+  </body>
 <script src="main.js"></script>
 </html>

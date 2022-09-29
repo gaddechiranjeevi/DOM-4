@@ -1,76 +1,83 @@
-// event listener for submit 
-var form = document.getElementById('addForm');  
-var itemList = document.getElementById('items');  
+var submitButton = document.getElementById("submit");
+document.addEventListener("DOMContentLoaded", function () {
+  console.log("vscode");
+  localStorage.getItem();
+});
 
-// Form submit event 
-form.addEventListener('submit', addForm);   
-itemList.addEventListener('click', removeItem); 
+if (document.readyState !== "loading") {
+  console.log("vscode");
+  var keys = Object.keys(localStorage),
+      //taking out all the keys that are there in the local storage
+  i = keys.length; //6
 
-function addForm(e){
-    e.preventDefault();     
+  console.log("keys", keys);
+  var stringifiedDetailsOfPeople, detailsOfPeople; // 6 to 0
 
-
-      // Get input value 
-      var fname = document.getElementById('fname').value; 
-      var lname = document.getElementById('lname').value; 
-      // Create new li element 
-      var p = document.createElement('p');  
-     
-      // Add class 
-      p.className = 'list-group-item';  
-      // Add text node with input value 
-      p.appendChild(document.createTextNode(fname + " " + lname + " "));  
-         
-      // Append li to list
-    itemList.appendChild(p);    
-
-      // Create delet button element 
-      var deletBtn = document.createElement('button'); 
-      // Add clases to del button 
-      deletBtn.className= 'btn btn-danger btn-sm float-right delete'; 
-      // Append text node 
-      deletBtn.appendChild(document.createTextNode('X'));  
-      // Append button to li
-  p.appendChild(deletBtn);    
-
-  p.addEventListener("click", () => {
-    localStorage.removeItem(fname);
-    // axios.delete(`${apiendpoint}/registeruser/${object._id}`);
-    p.remove();
+  Object.keys(localStorage).forEach(function (key) {
+    //i==2
+    if (key.match(/userDetails/g)) {
+      //we only care about keys that start with userDetails
+      //this is called regex matching
+      stringifiedDetailsOfPeople = localStorage.getItem(key);
+      console.log("stringifiedDetailsOfPeople", stringifiedDetailsOfPeople);
+      detailsOfPeople = JSON.parse(stringifiedDetailsOfPeople);
+      console.log("details", detailsOfPeople);
+      addNewLineElement(detailsOfPeople);
+    }
   });
+} // const listOfPeople = []
 
 
-// Create edit button element   
-var editBtn = document.createElement('button'); 
-// Add clases to del button 
-editBtn.className= 'btn btn-danger btn-sm float-right delete'; 
-// Append text node 
-editBtn.appendChild(document.createTextNode('edit'));  
-// Append button to li
-p.appendChild(editBtn); 
+submitButton.addEventListener("click", function (e) {
+  e.preventDefault();
+  var emailId = document.getElementById("email").value;
+  var name = document.getElementById("name").value;
 
+  if (emailId.length > 0 && name.length > 0) {
+    var object = {
+      name: name,
+      emailId: emailId //unique
 
+    };
+    localStorage.setItem("userDetails" + emailId, JSON.stringify(object)); // localStorage.setItem("userDetailEmail" + emailId, emailId);
+    // listOfPeople.push(object)
 
+    addNewLineElement(object);
+  }
+});
 
+function addNewLineElement(object) {
+  var ul = document.getElementById("listOfPeople");
+  var li = document.createElement("li");
+  li.appendChild(document.createTextNode(object.name + " " + object.emailId + " ")); // li.appendChild()
 
-    if(fname.length >0 && lname.length>0){
-    let myObj = {
-      inputfname: fname,  
-      inputlname: lname
-  };    
-  
-  let myobj_serialized = JSON.stringify(myObj); 
-  localStorage.setItem(myObj.inputfname,myobj_serialized); 
-  let myObj_deserialized = JSON.parse(localStorage.getItem(myObj.inputfname));  
-  console.log(myObj_deserialized);   
+  console.log(document.createElement("i"));
+  var a1 = document.createElement("input");
+  a1.id = "yash";
+  a1.type = "button";
+  a1.value = "Edit";
+  a1.addEventListener("click", function () {
+    console.log(object);
+    document.getElementById("name").value = object.name;
+    document.getElementById("email").value = object.emailId;
+    li.remove();
+  });
+  a1.className = "delete";
+  a1.style.border = "2px solid green";
+  console.log(a1);
+  li.appendChild(a1);
+  var a = document.createElement("input");
+  a.type = "button";
+  a.value = "delete";
+  a.addEventListener("click", function () {
+    localStorage.removeItem("userDetails" + object.emailId); // axios.delete(`${apiendpoint}/registeruser/${object._id}`);
+
+    li.remove();
+  });
+  a.className = "delete";
+  a.style.border = "2px solid red";
+  console.log(a);
+  li.appendChild(a);
+  console.log(li);
+  ul.appendChild(li);
 }
-}    
-
-
- function removeItem(e){
-   if(e.target.classList.contains('delete')){
-           var li = e.target.parentElement;  
-           itemList.removeChild(li); 
-           localStorage.removeItem(li);
-   }
-   }
